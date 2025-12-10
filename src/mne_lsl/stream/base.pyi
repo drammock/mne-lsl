@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from collections.abc import Callable, Generator
+from contextlib import contextmanager
 from datetime import datetime
 from typing import Any
 
@@ -90,6 +91,7 @@ class BaseStream(ABC, ContainsMixin, SetChannelsMixin):
         """
     _buffer: Incomplete
 
+    @fill_doc
     def add_reference_channels(
         self,
         ref_channels: str | list[str] | tuple[str, ...],
@@ -126,6 +128,8 @@ class BaseStream(ABC, ContainsMixin, SetChannelsMixin):
         buffer <resources/implementations:StreamLSL>`.
         """
 
+    @verbose
+    @fill_doc
     def anonymize(
         self,
         daysback: int | None = None,
@@ -253,6 +257,8 @@ class BaseStream(ABC, ContainsMixin, SetChannelsMixin):
         pick
         """
 
+    @verbose
+    @fill_doc
     def filter(
         self,
         l_freq: float | None,
@@ -344,6 +350,7 @@ class BaseStream(ABC, ContainsMixin, SetChannelsMixin):
             The channel types.
         """
 
+    @fill_doc
     def get_channel_units(
         self,
         picks: str | list[str] | int | list[int] | ScalarIntArray | None = None,
@@ -374,6 +381,7 @@ class BaseStream(ABC, ContainsMixin, SetChannelsMixin):
             for micro (corresponds to ``1e-6``).
         """
 
+    @fill_doc
     def get_data(
         self,
         winsize: float | None = None,
@@ -423,18 +431,12 @@ class BaseStream(ABC, ContainsMixin, SetChannelsMixin):
 
         Returns
         -------
-
-        montage : None | str | DigMontage
-            A montage containing channel positions. If a string or
-            :class:`~mne.channels.DigMontage` is
-            specified, the existing channel information will be updated with the
-            channel positions from the montage. Valid strings are the names of the
-            built-in montages that ship with MNE-Python; you can list those via
-            :func:`mne.channels.get_builtin_montages`.
-            If ``None`` (default), the channel positions will be removed from the
-            :class:`~mne.Info`.
+        montage : None | DigMontage
+            A copy of the channel positions, if available, otherwise ``None``.
         """
 
+    @verbose
+    @fill_doc
     def notch_filter(
         self,
         freqs: float,
@@ -503,6 +505,7 @@ class BaseStream(ABC, ContainsMixin, SetChannelsMixin):
     def plot(self) -> None:
         """Open a real-time stream viewer. Not implemented."""
 
+    @fill_doc
     def pick(
         self,
         picks: str | list[str] | int | list[int] | ScalarIntArray | None = None,
@@ -542,6 +545,8 @@ class BaseStream(ABC, ContainsMixin, SetChannelsMixin):
     def record(self) -> None:
         """Record the stream data to disk. Not implemented."""
 
+    @verbose
+    @fill_doc
     def rename_channels(
         self,
         mapping: dict[str, str] | Callable,
@@ -582,6 +587,8 @@ class BaseStream(ABC, ContainsMixin, SetChannelsMixin):
             The stream instance modified in-place.
         """
 
+    @verbose
+    @fill_doc
     def set_channel_types(
         self,
         mapping: dict[str, str],
@@ -646,6 +653,7 @@ class BaseStream(ABC, ContainsMixin, SetChannelsMixin):
     _ref_channels: Incomplete
     _ref_from: Incomplete
 
+    @fill_doc
     def set_eeg_reference(
         self,
         ref_channels: str | list[str] | tuple[str, ...],
@@ -703,6 +711,8 @@ class BaseStream(ABC, ContainsMixin, SetChannelsMixin):
         anonymize
         """
 
+    @verbose
+    @fill_doc
     def set_montage(
         self,
         montage: str | DigMontage | None,
@@ -782,6 +792,7 @@ class BaseStream(ABC, ContainsMixin, SetChannelsMixin):
     def _check_not_epoched(self, name: str) -> None:
         """Check that the stream is not being epoched."""
 
+    @contextmanager
     def _interrupt_acquisition(self) -> Generator[None]:
         """Context manager interrupting the acquisition thread."""
     _info: Incomplete

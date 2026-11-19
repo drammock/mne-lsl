@@ -263,6 +263,7 @@ class EpochsStream:
         """
     _n_new_epochs: int
 
+    @fill_doc
     def get_data(
         self,
         n_epochs: int | None = None,
@@ -282,9 +283,9 @@ class EpochsStream:
             'eeg']``) will pick channels of those types, channel *name* strings (e.g.,
             ``['MEG0111', 'MEG2623']`` will pick the given channels. Can also be the
             string values ``'all'`` to pick all channels, or ``'data'`` to pick
-            :term:`data channels`. None (default) will pick all channels. Note that
-            channels in ``info['bads']`` *will be included* if their names or indices
-            are explicitly provided.
+            :term:`data channels`. None (default) will pick all channels. Bad channels
+            are included by default. Note that channels in ``info['bads']`` *will be
+            included* if their names or indices are explicitly provided.
         exclude : str | list of str | tuple of str
             Set of channels to exclude, only used when picking based on types (e.g.,
             ``exclude="bads"`` when ``picks="meg"``) or when picking is set to ``None``.
